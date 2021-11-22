@@ -34,6 +34,12 @@
   font-size: 1.3rem;
 }
 
+.waveButton:disabled {
+  cursor: not-allowed;
+  background-color: #9b9ea5;
+  color: #32565c;
+}
+
 .errors {
   color: red;
   font-size: 0.8em;

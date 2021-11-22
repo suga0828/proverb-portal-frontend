@@ -96,7 +96,7 @@ const App = () => {
           setShowError(true);
           console.log('show error true')
           
-          await (new Promise(resolve => setTimeout(resolve, 5000)));
+          await (new Promise(resolve => setTimeout(resolve, 3000)));
           
           console.log('show error false')
           setShowError(false);
@@ -153,7 +153,7 @@ const App = () => {
         )}
 
         {currentAccount ? (
-          <button className={`waveButton ld-ext-right ${loading && 'running'}`} onClick={sayProverb}>
+          <button className={`waveButton ld-ext-right ${loading && 'running'}`} onClick={sayProverb} disabled={showError}>
             Say a proverb to the world
             <span className="ld ld-ring ld-spin"></span>
           </button>
