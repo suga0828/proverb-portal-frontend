@@ -6,9 +6,7 @@
 }
 
 .dataContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  text-align: center;
   max-width: 600px;
 }
 
@@ -25,9 +23,24 @@
 }
 
 .waveButton {
+  font-weight: 700;
   cursor: pointer;
-  margin-top: 16px;
-  padding: 8px;
+  margin-top: 1rem;
+  padding: 1rem;
   border: 0;
   border-radius: 5px;
+  background-color: #111827;
+  color: #34d3ee;
+  font-size: 1.3rem;
+}
+
+.errors {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 1rem;
+}
+
+.errors *::before {
+  content: '*';
+  display: inline-block;
 }
