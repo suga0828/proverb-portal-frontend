@@ -5,7 +5,9 @@ import { ethers } from "ethers";
 import './App.css';
 
 const App = () => {
-  const wave = () => {}
+  const wave = () => {
+    console.log(ethers)
+  }
   
   return (
     <div className="mainContainer">
