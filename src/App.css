@@ -1,13 +1,23 @@
 .mainContainer {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   width: 100%;
-  margin-top: 64px;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: auto;
 }
 
 .dataContainer {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
   max-width: 600px;
+  max-height: 100%;
+}
+
+header {
+  text-align: center;
+  padding-top: 4rem;
 }
 
 .header {
@@ -25,12 +35,11 @@
 .waveButton {
   font-weight: 700;
   cursor: pointer;
-  margin-top: 1rem;
   padding: 1rem;
   border: 0;
   border-radius: 5px;
-  background-color: #111827;
-  color: #34d3ee;
+  background-image: linear-gradient(to left, rgb(203, 94, 238), rgb(12, 215, 228));
+  color: black;
   font-size: 1.3rem;
 }
 
@@ -49,4 +58,43 @@
 .errors *::before {
   content: '*';
   display: inline-block;
+}
+
+section {
+  flex: 0 0 auto;
+  max-height: 300px;
+  overflow: auto;
+}
+
+footer {
+  flex: 1 1 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 2rem;
+}
+
+footer div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+footer a {
+  padding: 0 0.5rem;
+  color: #494949;
+}
+
+.fancy-bg {
+  background-image: linear-gradient(to left, rgb(203, 94, 238), rgb(12, 215, 228));
+  color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1.25rem;
+}
+
+footer a:visited {
+  color: auto;
 }
