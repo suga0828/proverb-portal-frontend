@@ -168,6 +168,36 @@ const App = () => {
     }
   }
 
+  useEffect(() => {
+    const { ethereum } = window as any;
+
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+
+      const onNewProverb = (from: string, timestamp: number, message: string) => {
+        setProverbs(prevState => [
+          {
+            address: from,
+            timestamp: new Date(timestamp * 1000),
+            message: message,
+          },
+          ...prevState
+        ]);
+      };
+
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+      contract.on('NewProverb', onNewProverb);
+
+      return () => {
+        if (contract) {
+          contract.off('NewProverb', onNewProverb);
+        }
+      };
+    }
+
+  }, []);
+
   return (
     <div className="mainContainer bg-blue-50">
       <div className="dataContainer">
