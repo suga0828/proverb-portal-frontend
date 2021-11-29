@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
 import { ethers } from "ethers";
 import moment from 'moment';
@@ -25,9 +25,9 @@ const App = () => {
   const [proverbs, setProverbs] = React.useState([] as Proverb[]);
   const [currentAccount, setCurrentAccount] = React.useState('');
 
-  const contractAddress = '0x0bE8f6dd19E47019Ad8c87ebc5b1FB1FD4EDE341';
+  const contractAddress = '0x7a25116487805266eb3388dB945Ed6084bE0066A';
 
-  const checkIfWalletIsConnected = async () => {
+  const checkIfWalletIsConnected = useCallback(async () => {
     try {
       const { ethereum } = window as any;
 
@@ -55,7 +55,7 @@ const App = () => {
       setError(new Date().getMilliseconds() + ': ' + (error as { message: string }).message);
       setShowError(true);
     }
-  };
+  }, []);
 
   const verifyNetwork = async () => {
     const { ethereum } = window as any;
@@ -107,6 +107,9 @@ const App = () => {
 
       console.log("Connected: ", accounts[0]);
       setCurrentAccount(accounts[0]);
+
+      await verifyNetwork();
+      await getProverbs();
     } catch (error) {
       console.log(error);
       setError(new Date().getMilliseconds() + ': ' + (error as { message: string }).message);
@@ -116,7 +119,7 @@ const App = () => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-  }, []);
+  }, [checkIfWalletIsConnected]);
 
   useEffect(
     () => {
@@ -146,11 +149,12 @@ const App = () => {
         const signer = provider.getSigner();
         const proverPortalContract = new ethers.Contract(contractAddress, abi, signer);
 
-        const txn = await proverPortalContract.sayProverb(message, { gasLimit: 300000 });
+        const txn = await proverPortalContract.sayProverb(message, { gasLimit: 3000000 });
         console.log("Mining...", txn.hash);
 
         await txn.wait();
         console.log("Mined -- ", txn.hash);
+        setMessage('');
       } else {
         console.log("Ethereum object doesn't exit!")
       }
@@ -217,7 +221,7 @@ const App = () => {
             )}
           </div>
 
-          {!!proverbs && (
+          {proverbs.length > 0 && (
             <div className="bio">
               We have collected {proverbs.length} proverbs so far.
             </div>
@@ -230,27 +234,26 @@ const App = () => {
               <ul className="divide-y divide-gray-200 items-center bg-transparent w-full border-collapse">
                 {proverbs.map((p, i) => (
                   <li key={i}>
-                    <a className="block hover:bg-gray-50">
-                      <div className="px-4 py-4 sm:px-6">
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm text-gray-700 break-all">{p.message}</p>
-                          <div className="ml-2 flex-shrink-0 flex">
-                            <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                              <a target="_blank" rel="noopener noreferrer" href={`https://rinkeby.etherscan.io/address/${p.address}`}>
-                                {`${p.address.substr(0, 4)}...${p.address.substr(-4)}`}
-                              </a>
-                            </p>
-                          </div>
-                        </div>
-                        <div className="mt-2 sm:flex sm:justify-between">
-                          <div className="sm:flex">
-                            <p className="flex items-center text-xs font-thin text-gray-500">
-                              <time>{moment(p.timestamp).fromNow()}</time>
-                            </p>
-                          </div>
+                    <div className="px-4 py-4 sm:px-6 hover:bg-gray-50">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm text-gray-700 break-all">{p.message}</p>
+                        <div className="ml-2 flex-shrink-0 flex">
+                          <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                            <a target="_blank" rel="noopener noreferrer" href={`https://rinkeby.etherscan.io/address/${p.address}`}>
+                              {`${p.address.substr(0, 4)}...${p.address.substr(-4)}`}
+                            </a>
+                          </p>
                         </div>
                       </div>
-                    </a>
+                      <div className="mt-2 sm:flex sm:justify-between">
+                        <div className="sm:flex">
+                          <p className="flex items-center text-xs font-thin text-gray-500">
+                            <time>{moment(p.timestamp).fromNow()}</time>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
                   </li>
                 ))}
               </ul>

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
 interface LimitedTextAreaProps {
   id?: string;
@@ -14,14 +14,10 @@ interface LimitedTextAreaProps {
 }
 
 const LimitedTextarea = ({ id, name, classes, value, setValue, rows, cols, limit, placeholder, disabled = false }: LimitedTextAreaProps) => {
-  const [] = useState(value.slice(0, limit));
-
   const setFormattedContent = useCallback(
     text => {
       setValue(text.slice(0, limit));
-    },
-    [limit, setValue]
-  );
+    }, [limit, setValue]);
 
   return (
     <>
