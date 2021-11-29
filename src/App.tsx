@@ -178,6 +178,10 @@ const App = () => {
             I am <a href="https://github.com/suga0828" className="font-bold">suga</a> and I'm collecting proverbs, aphorisms, adages or whatever you want to share with the Web3 world.
           </div>
 
+          <div className="bio">
+            You could gain some ETH (on Rinkeby network) if you share your wisdom. 🤭
+          </div>
+
           <div className="my-4">
             <form onSubmit={() => sayProverb(message)}>
               <LimitedTextarea
